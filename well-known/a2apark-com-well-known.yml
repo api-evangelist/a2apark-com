@@ -1,0 +1,84 @@
+generated: '2026-09-19'
+method: probed
+source: live GET of the named /.well-known/ path list on every host this record knows
+hit_count: 0
+note: >-
+  Every named discovery path returned 404 on the apex a2apark.com (a JSON {"error":"Not found"} body, the
+  same shape the app returns for any unknown route) and on bench.a2apark.com (a Next.js 404 page). The
+  negative-control path returned 404 on both, so these are true absences and not a path-echoing or SPA
+  catch-all. www.a2apark.com 301s every path to the apex and agent-amusement-park.onrender.com (the Render
+  origin the a2aregistry.org listing names) 308s every path to the apex, so neither is a distinct surface.
+  No WellKnown or SecurityTxt pointer is emitted - this file records an absence. The one /.well-known/
+  document the apex DOES serve is the A2A agent card (/.well-known/agent-card.json and the legacy
+  /.well-known/agent.json, both 200 application/json); it is recorded and graded in a2a/a2apark-com-a2a.yml
+  rather than counted here. robots.txt on the apex disallows /.well-known/, /api/ and /a2a to crawlers.
+hosts:
+- host: https://a2apark.com
+  path_echo_control: passed
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /.well-known/a2apark-com-negative-control-9c1f2e77.json, status: 404, note: negative control}
+- host: https://bench.a2apark.com
+  path_echo_control: passed
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/api-catalog.json, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/aauth-resource.json, status: 404}
+  - {path: /.well-known/ucp.json, status: 404}
+  - {path: /.well-known/acp.json, status: 404}
+  - {path: /.well-known/apis.json, status: 404}
+  - {path: /apis.json, status: 404}
+  - {path: /apis.yml, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /.well-known/a2apark-com-negative-control-9c1f2e77.json, status: 404, note: negative control}
+- host: https://www.a2apark.com
+  redirects_to: https://a2apark.com
+  documents:
+  - {path: /.well-known/security.txt, status: 301}
+  - {path: /.well-known/openid-configuration, status: 301}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/oauth-protected-resource, status: 301}
+  - {path: /.well-known/api-catalog, status: 301}
+  - {path: /.well-known/ai-plugin.json, status: 301}
+  - {path: /.well-known/aauth-resource.json, status: 301}
+  - {path: /.well-known/ucp.json, status: 301}
+  - {path: /.well-known/acp.json, status: 301}
+  - {path: /.well-known/apis.json, status: 301}
+  - {path: /apis.json, status: 301}
+  - {path: /apis.yml, status: 301}
+- host: https://agent-amusement-park.onrender.com
+  redirects_to: https://a2apark.com
+  note: Render origin host; every path 308s to the same path on the apex.
+  documents:
+  - {path: /.well-known/security.txt, status: 308}
+  - {path: /.well-known/openid-configuration, status: 308}
+  - {path: /.well-known/oauth-authorization-server, status: 308}
+  - {path: /.well-known/oauth-protected-resource, status: 308}
+  - {path: /.well-known/api-catalog, status: 308}
+  - {path: /.well-known/ai-plugin.json, status: 308}
+  - {path: /.well-known/aauth-resource.json, status: 308}
+  - {path: /.well-known/ucp.json, status: 308}
+  - {path: /.well-known/acp.json, status: 308}
+  - {path: /.well-known/apis.json, status: 308}
+  - {path: /apis.json, status: 308}
+  - {path: /apis.yml, status: 308}

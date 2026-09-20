@@ -1,0 +1,69 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://a2apark.com/legal.html
+signals: {}
+note: >-
+  No horizontal regulatory signal is published. The only legal page, legal.html, is self-described
+  prototype terms: it names the operator, states that runs may be stored and at most 500 recent runs are
+  kept, that simulated worlds are fictional, and that "A business contact address will be added before
+  publication." It carries no accessibility statement, subprocessor list, DPA, data-subject-request
+  route, data-residency statement, incident-notification SLA, transparency report, SBOM or support
+  period. An empty signals map is the measurement, not a gap in the probe.
+probed_absent:
+- signal: sbom
+  urls:
+  - {url: 'https://a2apark.com/security/sbom', status: 404}
+  - {url: 'https://bench.a2apark.com/security/sbom', status: 404}
+  note: >-
+    No bill of materials published. Never derived - search only. The MutantWeb/ci runner advertises "zero
+    runtime dependencies" and an OpenSSF Scorecard badge, which is supply-chain hygiene but not an SBOM.
+- signal: accessibility_conformance
+  urls:
+  - {url: 'https://a2apark.com/accessibility', status: 404}
+  - {url: 'https://a2apark.com/accessibility/vpat', status: 404}
+  - {url: 'https://bench.a2apark.com/accessibility', status: 404}
+- signal: subprocessors
+  urls:
+  - {url: 'https://a2apark.com/legal/subprocessors', status: 404}
+  - {url: 'https://bench.a2apark.com/legal/subprocessors', status: 404}
+- signal: data_subject_request
+  urls:
+  - {url: 'https://a2apark.com/privacy/requests', status: 404}
+  - {url: 'https://a2apark.com/legal/dpa', status: 404}
+- signal: data_residency
+  urls:
+  - {url: 'https://a2apark.com/docs/data-residency', status: 404}
+  note: The origin is a Render service in gcp-us-west1 behind Cloudflare (DNS CNAME chain), but the provider states nothing about residency and an inferred region is not a published commitment.
+- signal: incident_notification
+  urls:
+  - {url: 'https://a2apark.com/legal/dpa', status: 404}
+- signal: ai_transparency
+  urls:
+  - {url: 'https://a2apark.com/ai', status: 404}
+  - {url: 'https://a2apark.com/ai/transparency', status: 404}
+- signal: training_data_summary
+  urls:
+  - {url: 'https://a2apark.com/ai', status: 404}
+- signal: transparency_report
+  urls:
+  - {url: 'https://a2apark.com/transparency', status: 404}
+  - {url: 'https://bench.a2apark.com/transparency', status: 404}
+- signal: notice_and_action
+  urls:
+  - {url: 'https://a2apark.com/legal/report-content', status: 404}
+- signal: global_privacy_control
+  urls:
+  - {url: 'https://a2apark.com/legal.html', status: 200}
+  note: The privacy text makes no GPC statement; honored is not set from a header probe.
+- signal: support_lifetime
+  urls:
+  - {url: 'https://a2apark.com/legal.html', status: 200}
+  note: 'The page states only "The public prototype may change, restart, or lose temporary run data" - an availability disclaimer, not a support period, so nothing is recorded.'
+- signal: exit_assistance
+  urls:
+  - {url: 'https://a2apark.com/legal.html', status: 200}
+  note: Scorecard share links embed the signed run summary, and the Bench runner is local-first, but no export or switching commitment is stated.
+- signal: age_assurance
+  urls:
+  - {url: 'https://a2apark.com/legal.html', status: 200}

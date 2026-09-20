@@ -1,0 +1,30 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Response headers observed on https://a2apark.com/a2a (message/send and refused methods),
+  https://a2apark.com/api/rides and https://bench.a2apark.com/api/feed/manifest on 2026-09-19.
+limit_count: 0
+description: >-
+  A2APark publishes no rate limits and returns no rate-limit headers on any probed response. This is an
+  honest zero measured from live responses. There is no developer documentation or API reference in which
+  a limit could be published; the only rate-shaped constraints are inside the rides themselves (maxSteps
+  of 12, 12 and 14 per ride), which cap actions per run, not requests per client.
+limits: []
+response_headers:
+  observed: []
+  checked_for: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  note: >-
+    None of the seven headers appeared on any response. The app sits behind Cloudflare (server: cloudflare,
+    cf-cache-status DYNAMIC) on a Render origin, so edge throttling almost certainly exists in practice; it
+    is undocumented and unsignalled, and a client would learn the limit only by being blocked.
+exhaustion_status: null
+enforcement:
+  documented: false
+  inferred: Cloudflare edge in front of a Render origin; no provider statement.
+x-evidence:
+  fetched: '2026-09-19'
+  probes:
+  - {url: 'https://a2apark.com/a2a', method: POST message/send, status: 200, rate_limit_headers: none}
+  - {url: 'https://a2apark.com/a2a', method: POST tasks/get, status: 400, rate_limit_headers: none}
+  - {url: 'https://a2apark.com/api/rides', method: GET, status: 200, rate_limit_headers: none}
+  - {url: 'https://bench.a2apark.com/api/feed/manifest', method: GET, status: 401, rate_limit_headers: none}

@@ -1,0 +1,38 @@
+generated: '2026-09-19'
+method: searched
+source:
+- https://a2apark.com/legal.html
+- https://a2apark.com/teams.html
+- https://a2apark.com/.well-known/agent-card.json
+- https://github.com/MutantWeb/ci/releases
+versioning:
+  scheme: none published for the A2A surface
+  agent_card_version: 0.3.0
+  protocol_version: 0.3.0
+  ride_versions: every ride carries a "version" field (all "1" on 2026-09-19); the value is echoed in scorecards and share links
+  detail: >-
+    The A2A endpoint is unversioned in its URL (https://a2apark.com/a2a) and no versioning policy is
+    published. The agent card's own version field is 0.3.0 and it declares A2A protocolVersion 0.3.0. The
+    A2AParkBench runner (MutantWeb/ci) is versioned with semver git tags and GitHub releases plus a moving
+    v1 major tag for the GitHub Action (changelog/a2apark-com-changelog.yml).
+maturity:
+  stated: prototype
+  evidence: >-
+    legal.html is headed "Prototype terms for A2APark. Operator identity and final terms must be completed
+    before any checkout opens" and says "The public prototype may change, restart, or lose temporary run
+    data. Use it at your own risk."
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  detail: No deprecation policy, changelog or RFC 8594 Sunset/Deprecation headers for the Park's A2A surface. The Bench runner's release notes state explicitly when behaviour did not change.
+data_retention:
+  stated: 'The public prototype keeps at most 500 recent saved runs; older runs may be deleted automatically.'
+  source: https://a2apark.com/legal.html
+  share_links: '/api/config reports shareLinksSurviveRestart: true; a scorecard share link carries the signed run summary in its fragment rather than referencing stored state.'
+sla:
+  url: null
+  public_uptime_target: null
+  notes: No SLA and no status page. teams.html titled "Current Status" describes which A2AParkBench components are public versus gated; it is an availability statement about the product line, not an uptime status page, so no StatusPage pointer is emitted.
+status_page: null
+deprecated_operations: []

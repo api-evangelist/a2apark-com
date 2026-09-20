@@ -1,0 +1,70 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  https://a2apark.com/.well-known/agent-card.json (fetched 2026-09-19), live JSON-RPC probes of
+  https://a2apark.com/a2a, the /.well-known/ sweep in well-known/a2apark-com-well-known.yml, and the
+  MutantWeb/ci README for the A2AParkBench feed API.
+description: >-
+  Cross-cutting standards A2APark's public surface conforms to, each with the evidence that decided it.
+  There is no OpenAPI, so nothing here is derived from a contract; every entry rests on a fetched document
+  or an observed response. No compliance program or certification is published, so no Compliance pointer
+  is emitted.
+standards:
+- id: a2a
+  conforms: true
+  version: 0.3.0 (declared)
+  evidence: >-
+    Agent card served at /.well-known/agent-card.json and /.well-known/agent.json with protocolVersion
+    0.3.0, capabilities object, skills array, preferredTransport JSONRPC; message/send answered a completed
+    Task with an artifacts[] data part. Graded conformant in a2a/a2apark-com-a2a.yml. Deviation: the card
+    uses the 1.0-shaped supportedInterfaces[].protocolBinding rather than 0.3's additionalInterfaces.
+- id: json-rpc-2.0
+  conforms: true
+  evidence: >-
+    Every response from https://a2apark.com/a2a carries jsonrpc "2.0", echoes the request id, and uses the
+    reserved error codes: -32601 for unimplemented methods (tasks/get, tasks/cancel, message/stream,
+    tools/list) and -32602 for an unknown skill.
+- id: rfc8615-well-known
+  conforms: true
+  evidence: The agent card is served at the RFC 8615 /.well-known/ path; no other well-known document is served (all 404, well-known/a2apark-com-well-known.yml).
+- id: mcp
+  conforms: false
+  evidence: 'POST tools/list to https://a2apark.com/a2a returns JSON-RPC -32601 "Method not found. Use message/send."; /mcp and /.well-known/mcp.json return 404. The endpoint is A2A only.'
+- id: oauth2
+  conforms: false
+  evidence: >-
+    The card declares security [] and securitySchemes {}; /.well-known/oauth-authorization-server and
+    /.well-known/oauth-protected-resource return 404 on every host. The A2A surface is anonymous. The
+    A2AParkBench feed uses a proprietary bearer feed token issued by /api/license/activate (401 "Bearer feed
+    token is required" anonymously) - a bearer credential but not OAuth 2.0.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on a2apark.com and bench.a2apark.com.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are JSON-RPC error objects on the A2A endpoint and {"error": "<message>"} JSON objects on the REST
+    routes (404 {"error":"Not found"}, 401 {"error":"Bearer feed token is required"}, 422 {"error":"license_key
+    and instance_name are required"}). No application/problem+json anywhere.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on both hosts.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Deprecation or Sunset headers observed and no deprecation policy published (lifecycle/a2apark-com-lifecycle.yml).
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key or equivalent replay mechanism is documented for message/send or the REST routes.
+    The rides penalise an agent for duplicate submissions inside the simulated world, which is an evaluation
+    rule, not an API replay guarantee (conventions/a2apark-com-conventions.yml).
+- id: openssf-scorecard
+  conforms: true
+  evidence: >-
+    The MutantWeb/ci repository runs the official OpenSSF Scorecard workflow with actions pinned to commit
+    SHAs and publishes the badge (README + v0.1.2 release notes, 2026-09-13). Recorded as a supply-chain
+    practice for the bench runner, not as a certification of the service.
+domain_standard: none
+domain_standard_note: >-
+  No agent-evaluation domain standard is declared in the contract surface. REWARD-ONLY - the absence is not
+  penalised and nothing is invented to fill the slot.

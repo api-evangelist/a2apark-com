@@ -1,0 +1,49 @@
+generated: '2026-09-19'
+method: searched
+source: https://github.com/MutantWeb/ci
+description: >-
+  First-party distributed software. A2APark ships no client library for the A2A endpoint (an A2A client
+  talks JSON-RPC directly). The one distributed package is the A2AParkBench runner - a CLI and GitHub
+  Action, not an SDK - so a Packages pointer is emitted but no SDKs pointer. npm, PyPI, crates.io, NuGet
+  and Maven were searched for a2apark, a2aparkbench, mutant-web-ci, mutant-web and @a2apark/*; none is
+  published, despite the README's reference to "the published repository and package".
+packages:
+- language: javascript
+  registry: github-releases
+  name: mutant-web-ci
+  aliases: [a2aparkbench, mutant-web]
+  url: https://github.com/MutantWeb/ci/releases
+  source: https://github.com/MutantWeb/ci
+  install: 'git clone https://github.com/MutantWeb/ci && node bin/mutant-web.mjs --adapter examples/safe-adapter.mjs'
+  official: true
+  version: 0.1.2
+  published: '2026-09-13'
+  license: MIT
+  engines: node >=20
+  bin: {a2aparkbench: bin/mutant-web.mjs, mutant-web: bin/mutant-web.mjs}
+  note: >-
+    Version and date read from the GitHub release v0.1.2 (2026-09-13T19:39:42Z) and package.json on the
+    default branch. The package name comes from package.json; the bin map exposes the a2aparkbench and
+    mutant-web commands.
+- language: javascript
+  registry: npm
+  name: mutant-web-ci
+  url: https://www.npmjs.com/package/mutant-web-ci
+  official: true
+  version: null
+  published: null
+  note: >-
+    registry.npmjs.org/mutant-web-ci returned 404 {"error":"Not found"} on 2026-09-19, as did mutant-web
+    and a2aparkbench. The README says "New package installs also expose the primary a2aparkbench CLI
+    alias", but no npm publication exists to install from; the only distribution is the git repository and
+    the GitHub Marketplace action.
+- language: yaml
+  registry: github-marketplace
+  name: MutantWeb/ci@v1
+  url: https://github.com/marketplace/actions/a2aparkbench-adversarial-regression
+  source: https://github.com/MutantWeb/ci/blob/main/action.yml
+  install: 'uses: MutantWeb/ci@v1'
+  official: true
+  version: v1 (moving major tag; resolves to v0.1.2 on 2026-09-19)
+  published: '2026-09-13'
+  note: Composite action; inputs adapter (required), pack, feed_url, token. Verified by reading action.yml; the marketplace listing URL is the one the bench site's "A2AParkBench on GitHub Marketplace" link resolves to and was not independently fetched.

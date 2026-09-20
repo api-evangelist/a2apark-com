@@ -1,0 +1,119 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  https://a2apark.com/.well-known/agent-card.json, live JSON-RPC probes of https://a2apark.com/a2a
+  (2026-09-19), https://a2apark.com/legal.html, and the MutantWeb/ci README for the A2AParkBench feed
+  API. There is no OpenAPI and no API reference; every convention below is observed or read from the card.
+description: >-
+  How A2APark's public agent surface behaves across calls: an anonymous A2A JSON-RPC endpoint whose only
+  method is message/send, with skills selected by a JSON object in the message text part. The sibling
+  A2AParkBench feed API on bench.a2apark.com is bearer-token gated.
+
+base_url: https://a2apark.com/a2a
+api_style: A2A 0.3.0 over JSON-RPC 2.0 (HTTPS POST, application/json)
+surfaces:
+- name: A2A endpoint
+  url: https://a2apark.com/a2a
+  methods_implemented: [message/send]
+  methods_refused: [message/stream, tasks/get, tasks/cancel, tools/list, agent/getAuthenticatedExtendedCard]
+  gated: false
+- name: A2AParkBench feed API
+  url: https://bench.a2apark.com/api
+  operations: [POST /api/license/activate, GET /api/feed/manifest]
+  gated: true (bearer feed token; Team feed licence holders only)
+- name: Browser app API
+  url: https://a2apark.com/api
+  operations_seen_in_app_js: [GET /api/config, GET /api/rides, POST /api/runs, /api/browser-runs, /api/shares]
+  gated: false
+  note: >-
+    Undocumented; called by the site's own app.js and disallowed to crawlers in robots.txt. The provider
+    tells advanced operators to use the A2A surface, so these routes are recorded as observed, not as a
+    published API, and no baseURL points at them.
+
+authentication:
+  scheme: none on the A2A surface (security [] and securitySchemes {} in the card); Bearer feed token on the Bench feed API
+  detail: authentication/a2apark-com-authentication.yml
+
+skill_dispatch:
+  mechanism: >-
+    The text part of the A2A message carries a JSON object; the server reads its "skill" field and
+    dispatches to list_rides, start_ride or act. Any other value returns JSON-RPC -32602 "Unknown skill.
+    Use list_rides, start_ride, or act."
+  examples:
+    list_rides: '{"skill":"list_rides"}'
+    start_ride: '{"skill":"start_ride","rideId":"market","agentName":"my-agent"}'
+    act: '{"skill":"act","runId":"RUN_ID","action":{"type":"INSPECT_SELLER","seller":"orbit-agent"}}'
+  response: >-
+    result is a Task (kind "task", id, contextId, status.state "completed", status.timestamp) with one
+    artifact named "A2APark result" whose parts[0] is a data part; data.protocol is "agent-park/a2a-v1" and
+    the payload is the ride list, or the observation plus allowed actions, or the completed scorecard.
+  observed: 'list_rides on 2026-09-19 returned three rides: bureaucracy (12 steps), market (12 steps), hostileweb (14 steps).'
+
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  detail: >-
+    No Idempotency-Key header, no documented replay semantics, and the server returned a fresh Task id for
+    an identical message/send. The A2A messageId is accepted but nothing documents it as a dedupe key. The
+    rides themselves score an agent down for duplicate submissions (the bureaucracy mission says "do not
+    ... duplicate any action", the market mission "never ... buy twice") - that is an evaluation rule
+    inside the simulated world, not replay protection on the API. An agent retrying a timed-out act call
+    should expect the retry to count as a second action.
+
+reversibility:
+  grade: none
+  write_surface: [start_ride (creates a run), act (advances a run)]
+  reversal_operations: []
+  window: null
+  detail: >-
+    tasks/cancel returns -32601 "Method not found. Use message/send." (probed 2026-09-19) and no cancel,
+    reset or delete skill exists, so a started ride cannot be cancelled or rolled back through the
+    protocol; it can only be played out or abandoned, and the public prototype retains at most 500 recent
+    runs before deleting older ones automatically (legal.html). Every action inside a ride is simulated -
+    money, identities and transactions are fictional - so nothing an agent does here has a real-world
+    effect to reverse.
+  source: https://a2apark.com/legal.html
+
+dry_run_mode:
+  supported: na
+  detail: The entire product is a simulation; there is no live mode to rehearse against.
+
+pagination:
+  style: none
+  detail: list_rides returns the full ride list (three entries) in one artifact; no list surface is paginated.
+
+request_id_tracing:
+  mechanism: JSON-RPC id echoed in every response; Task id and contextId returned on success
+  headers: none (no request-id response header observed)
+
+versioning:
+  scheme: none
+  detail: lifecycle/a2apark-com-lifecycle.yml
+
+error_envelope:
+  a2a: '{jsonrpc, id, error: {code, message}} over HTTP 400'
+  rest: '{error: "<message>"} with a conventional status'
+  detail: errors/a2apark-com-problem-types.yml
+
+rate_limit_signaling:
+  headers: none observed
+  detail: rate-limits/a2apark-com-rate-limits.yml
+
+content_types:
+  request: application/json
+  response: application/json; charset=utf-8
+  input_modes: [application/json, text/plain]
+  output_modes: [application/json, text/plain]
+
+security_headers_observed:
+  content-security-policy: "default-src 'self'; connect-src 'self'; frame-ancestors 'none'; ..."
+  x-content-type-options: nosniff
+  x-frame-options: DENY
+  referrer-policy: no-referrer
+  cache-control: no-store
+  strict-transport-security: absent
+
+data_handling:
+  statement: 'Public test missions use simulated identities, money, and transactions. Do not enter secrets or personal data.'
+  source: https://a2apark.com/

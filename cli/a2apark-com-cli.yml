@@ -1,0 +1,41 @@
+generated: '2026-09-19'
+method: searched
+source: https://github.com/MutantWeb/ci#run-in-under-a-minute
+description: >-
+  The A2AParkBench command surface - a local-first adversarial regression runner for browser-agent action
+  policies. Captured from the MutantWeb/ci README, package.json and action.yml. The runner is the
+  provider's only first-party developer tool; the A2A endpoint itself has no CLI.
+docs: https://github.com/MutantWeb/ci#run-in-under-a-minute
+repo: https://github.com/MutantWeb/ci
+binary: a2aparkbench (alias mutant-web; both map to bin/mutant-web.mjs)
+requires: Node 20 or newer; zero runtime dependencies
+install:
+  source: 'git clone https://github.com/MutantWeb/ci && node bin/mutant-web.mjs --adapter examples/safe-adapter.mjs'
+  github_action: 'uses: MutantWeb/ci@v1'
+  npm: null
+  npm_note: The README implies a package install but nothing is published on npm (packages/a2apark-com-packages.yml).
+commands:
+  run:
+  - {name: 'a2aparkbench --adapter <path>', description: 'Run the starter pack against an ESM adapter that exports propose({task, state, allowed}) and returns {action}. Exits 1 if any proposal is wrong or violates the case policy.'}
+  - {name: '--pack <path>', description: Use a repository-relative mutation pack instead of the free starter pack (packs/starter.json).}
+  - {name: '--feed <url>', description: Pull an authenticated Team feed manifest; the pack is verified against its SHA-256 digest before execution.}
+  output:
+  - {name: '--format json', description: Machine-readable results.}
+  - {name: '--format junit', description: JUnit XML for CI test reporters.}
+  - {name: '--format github', description: GitHub job-summary case table (what the Action uses).}
+  environment:
+  - {name: A2APARKBENCH_ADAPTER / A2APARKBENCH_PACK / A2APARKBENCH_FEED_URL / A2APARKBENCH_TOKEN, description: Environment equivalents the composite action sets from its inputs; MUTANT_WEB_* names remain compatibility aliases.}
+  repo_scripts:
+  - {name: npm test, description: node --test}
+  - {name: npm run self-test, description: Runs the starter pack against the bundled examples/safe-adapter.mjs.}
+  - {name: npm run build:team-pack, description: scripts/build-team-pack.mjs (maintainer tooling for the paid feed).}
+key_flows:
+- name: Gate a pull request on adversarial regressions
+  steps:
+  - Export propose(context) from an ESM adapter in the repository.
+  - 'Add "uses: MutantWeb/ci@v1" with "with: adapter: <path>" to a workflow.'
+  - Read the case table in the job summary; a non-zero exit blocks the merge.
+- name: Use the paid Team feed
+  steps:
+  - POST https://bench.a2apark.com/api/license/activate with license_key and instance_name (owner/repository) to obtain one token per repository.
+  - Store it as the A2APARKBENCH_TOKEN secret and pass feed_url https://bench.a2apark.com/api/feed/manifest plus token to the action.

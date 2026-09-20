@@ -1,0 +1,83 @@
+generated: '2026-09-19'
+method: probed
+source:
+- https://a2apark.com/a2a
+- https://a2apark.com/api/rides
+- https://bench.a2apark.com/api/feed/manifest
+- https://bench.a2apark.com/api/license/activate
+format: jsonrpc-2.0
+format_note: >-
+  Not RFC 9457. The A2A endpoint returns JSON-RPC 2.0 error objects - and, unusually, returns them over
+  HTTP 400 rather than 200, so a client that checks the transport status before parsing the body will
+  see a failure either way. The REST routes on both hosts return a flat {"error": "<message>"} JSON
+  object with a conventional HTTP status. There is no published error reference; every entry below was
+  observed live on 2026-09-19 or is a JSON-RPC reserved code the server was seen to use.
+envelopes:
+- surface: a2a
+  shape: '{jsonrpc: "2.0", id, error: {code, message}}'
+  transport_status: 400
+  note: >-
+    Application-level JSON-RPC errors arrive with HTTP 400. The error object carries code and message only -
+    no data member. Success responses are HTTP 200 with a result.kind "task" Task object.
+- surface: rest
+  shape: '{error: "<message>"}'
+  transport_status: 401 | 404 | 405 | 422
+  note: One string field; no code, no type URI, no request id.
+problems:
+- id: jsonrpc-method-not-found
+  surface: a2a
+  jsonrpc_code: -32601
+  http_status: 400
+  message: Method not found. Use message/send.
+  observed: true
+  triggers: [tasks/get, tasks/cancel, message/stream, tools/list, agent/getAuthenticatedExtendedCard]
+  remediation: >-
+    Use message/send for everything. Task state is not queryable and a ride cannot be cancelled through the
+    protocol; drive a ride to completion (or abandon it) with repeated message/send calls carrying the runId.
+- id: jsonrpc-unknown-skill
+  surface: a2a
+  jsonrpc_code: -32602
+  http_status: 400
+  message: Unknown skill. Use list_rides, start_ride, or act.
+  observed: true
+  remediation: >-
+    Put a JSON object in the message's text part with "skill" set to list_rides, start_ride or act - the
+    three skill invocations the agent card's skills[].examples show. start_ride also needs rideId (and an
+    optional agentName); act needs runId and an action object drawn from the allowed actions returned by
+    the previous step.
+- id: rest-not-found
+  surface: rest
+  http_status: 404
+  message: Not found
+  observed: true
+  note: >-
+    a2apark.com answers every unknown route - including GET /a2a, /docs, /openapi.json and every
+    /.well-known/ path other than the agent card - with this body. It is the app's catch-all, so a 404 here
+    means "no such route", not "no such resource".
+- id: feed-token-required
+  surface: rest
+  http_status: 401
+  message: Bearer feed token is required
+  observed: true
+  endpoint: GET https://bench.a2apark.com/api/feed/manifest
+  remediation: >-
+    Send "Authorization: Bearer <token>", where the token is the per-repository token returned by POST
+    /api/license/activate (A2AParkBench Team feed licence holders only).
+- id: license-activation-missing-fields
+  surface: rest
+  http_status: 422
+  message: license_key and instance_name are required
+  observed: true
+  endpoint: POST https://bench.a2apark.com/api/license/activate
+  remediation: Send a JSON body with license_key (the Lemon Squeezy key from the receipt) and instance_name (owner/repository).
+- id: method-not-allowed
+  surface: rest
+  http_status: 405
+  observed: true
+  endpoint: GET https://bench.a2apark.com/api/license/activate
+  note: Empty body; the route is POST-only.
+- id: rate-limited
+  surface: a2a
+  http_status: 429
+  observed: false
+  note: Never observed and undocumented; no rate-limit headers were returned on any probe (rate-limits/a2apark-com-rate-limits.yml).

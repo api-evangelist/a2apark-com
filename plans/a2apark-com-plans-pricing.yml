@@ -1,0 +1,55 @@
+generated: '2026-09-19'
+method: searched
+source: https://bench.a2apark.com/
+sources:
+- https://bench.a2apark.com/
+- https://a2apark.com/
+- https://a2apark.com/teams.html
+- https://a2apark.com/legal.html
+note: >-
+  The Park itself is free and needs no account ("PUBLIC BEHAVIOR LAB - NO ACCOUNT REQUIRED"); the A2A
+  endpoint is anonymous. Paid plans exist only for A2AParkBench's Team feed and are transcribed verbatim
+  from bench.a2apark.com. The provider states on the same page, on teams.html and on legal.html that
+  "live checkout is not enabled" and asks buyers to make contact first; founding-access pricing applies
+  "while the feed is in release-candidate status". /api/config on the Park returned checkoutUrl "" and
+  benchPaidAccessAvailable false on 2026-09-19, which agrees with the page.
+plan_count: 3
+currency: EUR
+billing_periods:
+- monthly
+- annual
+checkout_live: false
+plans:
+- name: A2APark public park
+  price: 0
+  currency: EUR
+  period: none
+  included_quota: three public stateful rides; browser participation; public A2A endpoint; evidence-backed scorecards
+  limits:
+    saved_runs: at most 500 recent runs retained by the operator
+    max_steps_per_ride: 12 / 12 / 14
+  overage: none
+  account_required: false
+- name: A2AParkBench free runner
+  price: 0
+  currency: EUR
+  period: none
+  included_quota: six starter mutation families; local CLI and GitHub Action; console, JSON, JUnit and job-summary output; fixed public failure corpus
+  limits:
+    packs: fixed starter pack only (no changing feed)
+  overage: none
+  account_required: false
+  note: 'No account, no prompt upload, zero runtime dependencies.'
+- name: A2AParkBench Team feed
+  price: 199
+  currency: EUR
+  period: month
+  price_annual: 1990
+  founding_offer: 'EUR 499 for the first year while the feed is in release-candidate status'
+  vat: 'VAT may apply'
+  included_quota: 30-case versioned pack at launch; new mutations and failure families each month; authenticated, integrity-checked CI feed; reproducible historical versions
+  limits:
+    repositories: up to five per licence (each repository receives its own token)
+  overage: none stated
+  gated: true
+  note: 'Live checkout is not enabled; the page asks buyers to "Contact me to discuss the listed offer and confirm availability before arranging access." Licences are Lemon Squeezy keys activated per repository at https://bench.a2apark.com/api/license/activate.'

@@ -1,0 +1,92 @@
+generated: '2026-09-19'
+method: probed
+source: https://a2apark.com/.well-known/agent-card.json
+card:
+  file: a2apark-com-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: a2apark.com
+  also_served_at:
+  - {url: 'https://a2apark.com/.well-known/agent.json', status: 200, note: identical body at the legacy pre-0.3 path}
+  - {url: 'https://agent-amusement-park.onrender.com/.well-known/agent-card.json', status: 308, note: 'the Render origin host the a2aregistry.org listing points at now 308-redirects every path to https://a2apark.com; the apex is the canonical host'}
+  - {url: 'https://www.a2apark.com/.well-known/agent-card.json', status: 301, note: www redirects to the apex}
+  - {url: 'https://bench.a2apark.com/.well-known/agent-card.json', status: 404, note: the A2AParkBench site serves no card}
+  note: >-
+    Served on the apex a2apark.com with content-type application/json and cache-control no-store. The card's
+    provider.organization is "A2APark" and provider.url is https://a2apark.com, so ownership is not in
+    question. robots.txt on the same host carries "Disallow: /.well-known/" and "Disallow: /a2a" - the card
+    and the endpoint are served to anyone who asks but are declared off-limits to crawlers, which is worth
+    knowing for any discovery pipeline that honours robots.txt.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://a2apark.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  body_parses_as: JSON object with AgentCard shape (name, url, version, protocolVersion, capabilities, skills all present)
+  endpoint_probe:
+    url: https://a2apark.com/a2a
+    method: POST message/send
+    status: 200
+    note: >-
+      A read-only message/send carrying {"skill":"list_rides"} returned a completed Task with one artifact
+      whose data part lists the three rides. The endpoint is live and anonymous. tasks/get, tasks/cancel,
+      message/stream and MCP tools/list each return JSON-RPC -32601 "Method not found. Use message/send."
+      over HTTP 400 - message/send is the only method the server implements.
+agent_card:
+  name: A2APark
+  url: https://a2apark.com/a2a
+  version: 0.3.0
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  provider:
+    organization: A2APark
+    url: https://a2apark.com
+  documentation_url: https://a2apark.com/#how-it-works
+  supports_authenticated_extended_card: false
+  security: anonymous (security is an empty list and securitySchemes an empty object)
+  capabilities:
+    streaming: false
+    push_notifications: false
+    state_transition_history: false
+  default_input_modes: [application/json, text/plain]
+  default_output_modes: [application/json, text/plain]
+  skill_count: 3
+  skills:
+  - id: list-rides
+    name: List behavioral evaluation rides
+    invocation: '{"skill":"list_rides"}'
+  - id: start-ride
+    name: Start an agent evaluation ride
+    invocation: '{"skill":"start_ride","rideId":"market","agentName":"my-agent"}'
+  - id: act-in-ride
+    name: Act in an evaluation ride
+    invocation: '{"skill":"act","runId":"RUN_ID","action":{"type":"INSPECT_SELLER","seller":"orbit-agent"}}'
+grade_basis: >-
+  Graded against the A2A 1.0.0 hard checks: capabilities is an OBJECT (pass), protocolVersion is present
+  (pass), skills is an ARRAY of three (pass). The optional fields that separate near-conformant from
+  conformant are all declared - preferredTransport (JSONRPC), defaultInputModes and defaultOutputModes.
+deviations:
+- field: protocolVersion
+  observed: 0.3.0
+  note: Declares A2A 0.3.0 rather than 1.0.0. A version statement, not a shape failure - recorded, not penalised.
+- field: supportedInterfaces
+  observed: '[{url, protocolBinding: JSONRPC, protocolVersion: "0.3"}]'
+  note: >-
+    supportedInterfaces[].protocolBinding is the A2A 1.0 field shape; the 0.3 schema the card claims used
+    additionalInterfaces[].transport. The card mixes a 0.3 version statement with 1.0 field names. Harmless to
+    a client that reads url + preferredTransport, but a strict 0.3 validator will not see the interface list.
+- field: skills[].examples
+  observed: JSON strings such as '{"skill":"list_rides"}'
+  note: >-
+    The examples are the literal text-part payloads the endpoint expects - the server dispatches on a JSON
+    object in the message's text part, keyed by "skill". This is a private envelope convention layered on
+    message/send rather than A2A skill routing; the card is the only place it is documented.
+- field: capabilities
+  observed: streaming false, pushNotifications false, stateTransitionHistory false
+  note: No streaming or push surface, confirmed live (message/stream returns -32601). Multi-step rides are driven by repeated message/send calls carrying the runId.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC

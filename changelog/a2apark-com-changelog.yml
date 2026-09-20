@@ -1,0 +1,42 @@
+generated: '2026-09-19'
+method: searched
+source: https://github.com/MutantWeb/ci/releases
+scope: >-
+  A2AParkBench runner (MutantWeb/ci) only. The Park's A2A surface has no published changelog; its agent
+  card is at version 0.3.0 and the rides at version "1" with no dated history anywhere on a2apark.com.
+scheme: semver git tags with GitHub releases; a moving v1 major tag for the GitHub Action
+current_version: 0.1.2
+current_date: '2026-09-13'
+entries:
+- version: 0.1.2
+  date: '2026-09-13'
+  title: A2AParkBench v0.1.2
+  url: https://github.com/MutantWeb/ci/releases/tag/v0.1.2
+  breaking: false
+  additions:
+  - CITATION.cff for GitHub citation discovery (names A2AParkBench, the creator, the canonical Bench site, the historical namespace and the MIT licence)
+  - Official OpenSSF Scorecard workflow with every external action pinned to a full commit SHA; badge added to the README
+  - Accurate author, homepage and repository metadata in package.json
+  highlights: 'Rename to the A2AParkBench identity; "No runner behavior, test cases, scoring, feed access, licensing behavior, compatibility identifier, or public/private product boundary changed."'
+- version: 0.1.1
+  date: '2026-09-01'
+  title: Mutant Web CI v0.1.1
+  url: https://github.com/MutantWeb/ci/releases/tag/v0.1.1
+  breaking: false
+  additions:
+  - Production Team feed manifest URL
+  - Documented per-repository Lemon Squeezy licence activation
+  - Clarified that expired subscriptions stop future updates without breaking cached packs
+  highlights: Runner and GitHub Action behaviour unchanged from v0.1.0.
+- version: 0.1.0
+  date: '2026-08-31'
+  title: Mutant Web CI v0.1.0
+  url: https://github.com/MutantWeb/ci/releases/tag/v0.1.0
+  breaking: false
+  additions:
+  - Six deterministic adversarial mutation families
+  - Zero-dependency Node runner
+  - Console, JSON, JUnit and GitHub job-summary output
+  - Authenticated, integrity-checked Team feed support
+  - Local-first (no prompt or trace upload)
+  highlights: First public release, under the historical Mutant Web name.

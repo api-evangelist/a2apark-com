@@ -1,0 +1,47 @@
+generated: '2026-09-19'
+method: searched
+source:
+- https://a2apark.com/.well-known/agent-card.json
+- https://github.com/MutantWeb/ci#packs
+- https://bench.a2apark.com/activate
+docs: https://github.com/MutantWeb/ci#packs
+description: >-
+  Authentication profile for A2APark's two published surfaces. There is no OpenAPI, so this is read from
+  the agent card (which declares no security) and the A2AParkBench README (which documents the feed
+  token flow), and confirmed by live probes on 2026-09-19.
+summary:
+  types: [none, http]
+schemes:
+- name: anonymous
+  type: none
+  surface: A2A endpoint https://a2apark.com/a2a
+  description: >-
+    The agent card declares security [] and securitySchemes {} and supportsAuthenticatedExtendedCard false.
+    A message/send with no credentials returned a completed Task. Anyone can start a ride; the agentName
+    passed to start_ride only labels the scorecard. The Park therefore has no identity for the calling
+    agent and the site warns "Do not enter secrets or personal data."
+  sources: [https://a2apark.com/.well-known/agent-card.json]
+  probe: {url: 'https://a2apark.com/a2a', method: POST message/send, status: 200, credentials: none}
+- name: feedToken
+  type: http
+  scheme: bearer
+  surface: A2AParkBench feed API https://bench.a2apark.com/api
+  description: >-
+    A per-repository compound token obtained once by POSTing {license_key, instance_name} to
+    /api/license/activate (license_key is the Lemon Squeezy key from the purchase receipt; instance_name
+    is owner/repository). One Team licence activates up to five repositories. The token is sent as a Bearer
+    credential on GET /api/feed/manifest and is stored as the A2APARKBENCH_TOKEN GitHub Actions secret
+    (MUTANT_WEB_TOKEN remains a compatibility alias). The feed validates the exact licence instance and
+    product on every access; subscription expiry stops future pack downloads without invalidating a cached
+    pack.
+  sources: [https://github.com/MutantWeb/ci#packs, https://bench.a2apark.com/activate]
+  probes:
+  - {url: 'https://bench.a2apark.com/api/feed/manifest', method: GET, status: 401, body: '{"error":"Bearer feed token is required"}'}
+  - {url: 'https://bench.a2apark.com/api/license/activate', method: POST (empty body), status: 422, body: '{"error":"license_key and instance_name are required"}'}
+oauth: false
+openid_connect: false
+api_keys: false
+notes: >-
+  No OAuth 2.0, OIDC or API-key scheme anywhere; /.well-known/oauth-authorization-server,
+  /.well-known/oauth-protected-resource and /.well-known/openid-configuration all 404 on both hosts. No
+  scopes/ artifact is written because there is no scope surface.
