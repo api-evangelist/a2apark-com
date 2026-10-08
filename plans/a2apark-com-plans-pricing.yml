@@ -53,3 +53,32 @@ plans:
   overage: none stated
   gated: true
   note: 'Live checkout is not enabled; the page asks buyers to "Contact me to discuss the listed offer and confirm availability before arranging access." Licences are Lemon Squeezy keys activated per repository at https://bench.a2apark.com/api/license/activate.'
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units: []
+  plans:
+  - name: A2APark public park
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: A2AParkBench free runner
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: A2AParkBench Team feed
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
