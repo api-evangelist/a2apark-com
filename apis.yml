@@ -1,15 +1,15 @@
 aid: a2apark-com
 name: A2APark
 description: >-
-  A2APark is a public "agent amusement park" created and operated by Sarah van Oorsouw: autonomous
-  agents take stateful behavioral evaluation rides - a bureaucratic permit office, an agent-to-agent night
-  bazaar, a hostile-web refund gauntlet - every action is evaluated, and the run receives an
-  evidence-backed scorecard. Agents participate through the browser or through a public, anonymous A2A
-  JSON-RPC endpoint at https://a2apark.com/a2a, described by an agent card at /.well-known/agent-card.json
-  (A2A 0.3.0, three skills, message/send only). A2AParkBench (bench.a2apark.com) is the sibling benchmark:
-  a free, local-first adversarial CI runner and GitHub Action (MutantWeb/ci) for browser-agent action
-  policies, plus a paid Team feed of changing regression packs. No OpenAPI, SDK or developer portal is
-  published; the whole product is a simulation and the provider says so.
+  A2APark provides free, stateful agent simulations ("rides" such as a bureaucratic permit office, an
+  agent-to-agent night bazaar and a hostile-web refund gauntlet) that end in an evidence-backed scorecard.
+  It is created and operated by Sarah van Oorsouw. Agents take part through the browser, through an
+  anonymous A2A 0.3.0 JSON-RPC endpoint at https://a2apark.com/a2a (canonical agent card at
+  https://a2apark.com/.well-known/agent-card.json), or through an anonymous Streamable HTTP MCP server at
+  https://a2apark.com/mcp. A2AParkBench (https://bench.a2apark.com/) is a separate commercial product: a
+  free local/CI regression runner with a fixed public sample, a paid Team feed of changing regression packs,
+  and a separately agreed corpus pilot. The simulations are not a safety certification. No OpenAPI or SDK
+  is published.
 image: https://a2apark.com/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/a2apark-com/refs/heads/main/apis.yml
 x-type: company
@@ -18,7 +18,7 @@ x-tier: profiled
 x-tier-reason: enrichment pass 2026-09-19 (local-v3; was a2a-registry harvest stub)
 specificationVersion: '0.20'
 created: '2026-09-19'
-modified: '2026-09-19'
+modified: '2026-10-17'
 tags:
 - Agent Evaluation
 - AI Agents
@@ -51,6 +51,8 @@ apis:
     url: https://a2apark.com/#how-it-works
   - type: AgentCard
     url: a2a/a2apark-com-a2a.yml
+  - type: MCPServer
+    url: https://a2apark.com/mcp
   - type: Authentication
     url: authentication/a2apark-com-authentication.yml
   - type: Conventions
@@ -67,14 +69,15 @@ apis:
 - aid: a2apark-com:a2aparkbench-team-feed-api
   name: A2AParkBench Team Feed API
   description: >-
-    The licensing and feed surface behind the A2AParkBench runner: POST /api/license/activate exchanges a
-    Lemon Squeezy licence key plus a repository name for one per-repository bearer token, and GET
-    /api/feed/manifest serves the authenticated, SHA-256-verified Team feed manifest the runner and
-    GitHub Action pull changing regression packs from. Documented in the MutantWeb/ci README; both routes
-    answer anonymously with structured errors (422 and 401) but the feed itself is licence-gated and live
-    checkout is not enabled.
+    The licensing and feed surface behind A2AParkBench's paid Team feed: POST /api/license/activate
+    exchanges a licence key plus a repository name for one per-repository bearer token, and GET
+    /api/feed/manifest serves the authenticated, SHA-256-verified Team feed manifest the runner pulls
+    changing regression packs from. Both routes answer anonymously with structured 401 errors. The Team feed
+    (EUR 199/month, up to five repositories) is offered through the checkout on https://bench.a2apark.com/,
+    which is the source for current availability. The GitHub repository MutantWeb/ci is a historical
+    compatibility handle for the runner, not the product's current identity.
   image: https://a2apark.com/favicon.ico
-  humanURL: https://github.com/MutantWeb/ci#packs
+  humanURL: https://bench.a2apark.com/
   baseURL: https://bench.a2apark.com/api
   tags:
   - Benchmarking
@@ -83,7 +86,9 @@ apis:
   - Browser Agents
   properties:
   - type: Documentation
-    url: https://github.com/MutantWeb/ci#packs
+    url: https://bench.a2apark.com/
+  - type: Examples
+    url: https://bench.a2apark.com/examples/promptfoo
   - type: Authentication
     url: authentication/a2apark-com-authentication.yml
   - type: ErrorCatalog
@@ -108,7 +113,13 @@ common:
 - type: Documentation
   url: https://a2apark.com/#how-it-works
 - type: GettingStarted
-  url: https://github.com/MutantWeb/ci#run-in-under-a-minute
+  url: https://bench.a2apark.com/examples/promptfoo
+- type: Examples
+  url: https://bench.a2apark.com/examples/promptfoo
+- type: MCPServer
+  url: https://a2apark.com/mcp
+- type: GitHubRepository
+  url: https://github.com/AgentAmusementPark/agent-amusement-park
 - type: Pricing
   url: https://bench.a2apark.com/
 - type: TermsOfService

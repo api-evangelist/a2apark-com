@@ -4,7 +4,7 @@ source:
 - https://a2apark.com/.well-known/agent-card.json
 - https://github.com/MutantWeb/ci#packs
 - https://bench.a2apark.com/activate
-docs: https://github.com/MutantWeb/ci#packs
+docs: https://bench.a2apark.com/
 description: >-
   Authentication profile for A2APark's two published surfaces. There is no OpenAPI, so this is read from
   the agent card (which declares no security) and the A2AParkBench README (which documents the feed
@@ -14,7 +14,7 @@ summary:
 schemes:
 - name: anonymous
   type: none
-  surface: A2A endpoint https://a2apark.com/a2a
+  surface: A2A endpoint https://a2apark.com/a2a and MCP endpoint https://a2apark.com/mcp
   description: >-
     The agent card declares security [] and securitySchemes {} and supportsAuthenticatedExtendedCard false.
     A message/send with no credentials returned a completed Task. Anyone can start a ride; the agentName
@@ -22,22 +22,25 @@ schemes:
     agent and the site warns "Do not enter secrets or personal data."
   sources: [https://a2apark.com/.well-known/agent-card.json]
   probe: {url: 'https://a2apark.com/a2a', method: POST message/send, status: 200, credentials: none}
+  probes_2026_10_17:
+  - {url: 'https://a2apark.com/a2a', method: POST message/send list_rides, status: 200, credentials: none}
+  - {url: 'https://a2apark.com/mcp', method: POST initialize (Streamable HTTP), status: 200, credentials: none, serverInfo: 'a2apark 0.2.0'}
 - name: feedToken
   type: http
   scheme: bearer
   surface: A2AParkBench feed API https://bench.a2apark.com/api
   description: >-
     A per-repository compound token obtained once by POSTing {license_key, instance_name} to
-    /api/license/activate (license_key is the Lemon Squeezy key from the purchase receipt; instance_name
+    /api/license/activate (license_key is the key from the Team feed purchase receipt; instance_name
     is owner/repository). One Team licence activates up to five repositories. The token is sent as a Bearer
     credential on GET /api/feed/manifest and is stored as the A2APARKBENCH_TOKEN GitHub Actions secret
-    (MUTANT_WEB_TOKEN remains a compatibility alias). The feed validates the exact licence instance and
+    (MUTANT_WEB_TOKEN remains a historical compatibility alias, as does the MutantWeb/ci repository name). The feed validates the exact licence instance and
     product on every access; subscription expiry stops future pack downloads without invalidating a cached
     pack.
   sources: [https://github.com/MutantWeb/ci#packs, https://bench.a2apark.com/activate]
   probes:
   - {url: 'https://bench.a2apark.com/api/feed/manifest', method: GET, status: 401, body: '{"error":"Bearer feed token is required"}'}
-  - {url: 'https://bench.a2apark.com/api/license/activate', method: POST (empty body), status: 422, body: '{"error":"license_key and instance_name are required"}'}
+  - {url: 'https://bench.a2apark.com/api/license/activate', method: POST (empty body), status: 422, body: '{"error":"license_key and instance_name are required"}', note: 'returned 401 {"error":"Unexpected end of JSON input"} on 2026-10-17'}
 oauth: false
 openid_connect: false
 api_keys: false

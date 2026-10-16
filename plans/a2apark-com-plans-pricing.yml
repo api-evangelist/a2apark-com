@@ -7,18 +7,20 @@ sources:
 - https://a2apark.com/teams.html
 - https://a2apark.com/legal.html
 note: >-
-  The Park itself is free and needs no account ("PUBLIC BEHAVIOR LAB - NO ACCOUNT REQUIRED"); the A2A
-  endpoint is anonymous. Paid plans exist only for A2AParkBench's Team feed and are transcribed verbatim
-  from bench.a2apark.com. The provider states on the same page, on teams.html and on legal.html that
-  "live checkout is not enabled" and asks buyers to make contact first; founding-access pricing applies
-  "while the feed is in release-candidate status". /api/config on the Park returned checkoutUrl "" and
-  benchPaidAccessAvailable false on 2026-09-19, which agrees with the page.
-plan_count: 3
+  The Park itself is free and needs no account; the A2A and MCP endpoints are anonymous. Paid offerings
+  exist only for A2AParkBench and are transcribed from bench.a2apark.com, re-verified 2026-10-17 at the
+  provider's request: a EUR 199/month Team feed with a live "Subscribe" checkout form (/api/checkout/team),
+  and a separate one-time EUR 250 corpus pilot that "cannot be purchased until the named buyer and
+  A2AParkBench agree the scope ... in writing". Prices exclude tax; no VAT is charged while the Dutch KOR
+  applies. The page states "No annual, founding, add-on or tax subscription is included", so the annual
+  and founding prices recorded on 2026-09-19 are withdrawn. Current availability is whatever
+  bench.a2apark.com says.
+plan_count: 4
 currency: EUR
 billing_periods:
 - monthly
-- annual
-checkout_live: false
+- one-time
+checkout_live: true
 plans:
 - name: A2APark public park
   price: 0
@@ -44,15 +46,21 @@ plans:
   price: 199
   currency: EUR
   period: month
-  price_annual: 1990
-  founding_offer: 'EUR 499 for the first year while the feed is in release-candidate status'
-  vat: 'VAT may apply'
+  vat: 'Base price excluding tax; no VAT is charged while the Dutch KOR applies'
   included_quota: 30-case versioned pack at launch; new mutations and failure families each month; authenticated, integrity-checked CI feed; reproducible historical versions
   limits:
     repositories: up to five per licence (each repository receives its own token)
   overage: none stated
   gated: true
-  note: 'Live checkout is not enabled; the page asks buyers to "Contact me to discuss the listed offer and confirm availability before arranging access." Licences are Lemon Squeezy keys activated per repository at https://bench.a2apark.com/api/license/activate.'
+  note: 'Subscribe via the checkout on https://bench.a2apark.com/ (recurring monthly until cancelled). Licences are activated per repository at https://bench.a2apark.com/api/license/activate.'
+- name: A2AParkBench one-time corpus pilot
+  price: 250
+  currency: EUR
+  period: one-time
+  included_quota: at least 30 new cases not overlapping the public corpus, delivered over 30 calendar days from an agreed start date
+  overage: none stated
+  gated: true
+  note: 'Separate from the Team feed; purchasable only after the named buyer and A2AParkBench agree scope, start date, licence, delivery format and capacity in writing. Full refund if the buyer retains zero delivered cases. A later maintained organisation licence (EUR 1,000/month) is mentioned as optional and separate.'
 x-canonical:
   generated: '2026-10-08'
   vocabulary: all/0-working/economics/plans-canonical.yml
