@@ -62,7 +62,7 @@ plans:
   gated: true
   note: 'Separate from the Team feed; purchasable only after the named buyer and A2AParkBench agree scope, start date, licence, delivery format and capacity in writing. Full refund if the buyer retains zero delivered cases. A later maintained organisation licence (EUR 1,000/month) is mentioned as optional and separate.'
 x-canonical:
-  generated: '2026-10-08'
+  generated: '2026-10-18'
   vocabulary: all/0-working/economics/plans-canonical.yml
   models:
   - hybrid
@@ -90,3 +90,10 @@ x-canonical:
     units: []
     periods:
     - month
+  - name: A2AParkBench one-time corpus pilot
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - one-time
