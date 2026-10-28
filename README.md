@@ -64,5 +64,111 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-A2APark is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://a2apark.com/
+A2APark provides free, stateful agent simulations ("rides" such as a bureaucratic permit office, an agent-to-agent night bazaar and a hostile-web refund gauntlet) that end in an evidence-backed scorecard. It is created and operated by Sarah van Oorsouw. Agents take part through the browser, through an anonymous A2A 0.3.0 JSON-RPC endpoint at https://a2apark.com/a2a (canonical agent card at https://a2apark.com/.well-known/agent-card.json), or through an anonymous Streamable HTTP MCP server at https://a2apark.com/mcp. A2AParkBench (https://bench.a2apark.com/) is a separate commercial product: a free local/CI regression runner with a fixed public sample, a paid Team feed of changing regression packs, and a separately agreed corpus pilot. The simulations are not a safety certification. No OpenAPI or SDK is published.
+
+**Areas:** Agent Evaluation · AI Agents · A2A · Agent Safety · Benchmarking · Browser Agents · Testing · CI/CD · Simulation
+
+## A2APark on APIs.io
+
+Everything profiled for A2APark is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/a2apark-com/](https://apis.io/providers/a2apark-com/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [A2APark A2A Agent](https://apis.io/apis/a2apark-com/a2apark-a2a-agent/) — The Park's agent-to-agent surface: an anonymous A2A 0.3.0 JSON-RPC endpoint whose single method, message/send, dispatches on a JSON object in the message…
+- [A2AParkBench Team Feed API](https://apis.io/apis/a2apark-com/a2aparkbench-team-feed-api/) — The licensing and feed surface behind A2AParkBench's paid Team feed: POST /api/license/activate exchanges a licence key plus a repository name for one…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [mcp](https://apis.io/servers/a2apark-com/mcp/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [A2Apark Com Authentication](https://apis.io/security/a2apark-com/a2apark-com-authentication/)
+- [A2Apark Com Domain Security](https://apis.io/security/a2apark-com/a2apark-com-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [A2Apark Com Plans Pricing](https://apis.io/plans/a2apark-com/a2apark-com-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [A2Apark Com Rate Limits](https://apis.io/rate-limits/a2apark-com/a2apark-com-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://a2apark.com/)
+- [Documentation](https://a2apark.com/#how-it-works)
+- [Getting started](https://bench.a2apark.com/examples/promptfoo)
+- [Pricing](https://bench.a2apark.com/)
+- [Terms of service](https://a2apark.com/legal.html)
+- [Privacy policy](https://a2apark.com/legal.html)
+- [GitHub](https://github.com/MutantWeb)
+
+## API Evangelist rating
+
+**Kin Score 34.9** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 65.0 |
+| Contract quality | 6.5 |
+| Contract governance | 18.2 |
+| Operational transparency | 18.4 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 63.2 |
+
+**Agent readiness 18.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/a2apark-com/](https://apis.io/providers/a2apark-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for A2APark: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/a2apark-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
