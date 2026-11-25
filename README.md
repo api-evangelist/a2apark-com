@@ -91,20 +91,20 @@ Model Context Protocol servers that expose the API to agents.
 
 Authentication, trust centre, and vulnerability disclosure.
 
-- [A2Apark Com Authentication](https://apis.io/security/a2apark-com/a2apark-com-authentication/)
-- [A2Apark Com Domain Security](https://apis.io/security/a2apark-com/a2apark-com-domain-security/)
+- [A2APark Authentication](https://apis.io/security/a2apark-com/a2apark-com-authentication/)
+- [A2APark Domain Security](https://apis.io/security/a2apark-com/a2apark-com-domain-security/)
 
 #### Plans and pricing (1)
 
 Published plans, tiers and prices.
 
-- [A2Apark Com Plans Pricing](https://apis.io/plans/a2apark-com/a2apark-com-plans-pricing/)
+- [A2APark Plans Pricing](https://apis.io/plans/a2apark-com/a2apark-com-plans-pricing/)
 
 #### Rate limits (1)
 
 Published request limits.
 
-- [A2Apark Com Rate Limits](https://apis.io/rate-limits/a2apark-com/a2apark-com-rate-limits/)
+- [A2APark Rate Limits](https://apis.io/rate-limits/a2apark-com/a2apark-com-rate-limits/)
 
 ## Where to find this API
 
@@ -120,18 +120,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 34.9** — thin · rubric 0.25.0 · scored 2026-10-23
+**Kin Score 33.7** — thin · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 65.0 |
 | Contract quality | 6.5 |
 | Contract governance | 18.2 |
-| Operational transparency | 18.4 |
+| Operational transparency | 19.0 |
 | Developer ergonomics | 40.5 |
-| Access clarity | 63.2 |
+| Access clarity | 61.7 |
 
-**Agent readiness 18.0** — agent-aware
+**Agent readiness 17.7** — agent-aware
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -156,8 +156,12 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Agentic Commerce | — |
 | Pagination Ratio | na |
 | Operation Distinctiveness | na |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 18.6** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/a2apark-com/](https://apis.io/providers/a2apark-com/).
 
